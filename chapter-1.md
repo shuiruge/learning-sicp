@@ -102,18 +102,62 @@ Function signature is used in the construction of the environment diagram.
 
 Calling for user-defined function envokes a _local frame_. An instance to declare it is stated as follow.
 
-Consider:
+> Applying a user-defined function introduces a second local frame, which is only accessible to that function. To apply a user-defined function to some arguments:
+>
+> Bind the arguments to the names of the function's formal parameters in a new local frame.
+> Execute the body of the function in the environment that starts with this frame.
+> The environment in which the body is evaluated consists of two frames: first the local frame that contains formal parameter bindings, then the global frame that contains everything else. Each instance of a function application has its own independent local frame.
+
+### Instance:
 
 	from operator import mul
 	def square(x):
 	    return mul(x, x)
 	square(-2)
 
-1. The first line import a "mul(...)" function to GF (global frame) (Notice that we use function signature).
-1. The second and the third lines defines a function "square(x)" which generates a function to GF.
-1. The final line calls for the user-defined function "square(x)" with parameters being "-2". This calling envokes a local frame asdf
+> 1. After executing the first import statement, only the name mul is bound in the global frame.
+> 1. Next, the definition statement for the function square is executed. Notice that the entire def statement is processed in a single step. The body of a function is not executed until the function is called (not when it is defined).
+> 1. Then, the square() function is called with the argument -2, and so a new frame is created with the formal parameter x bound to the value -2.
+> 1. Then, the name x is looked up in the current environment, which consists of the two frames -- the global and the local associated to function square. The function mul() is embedded in the global frame. In both occurrences, x evaluates to -2, and so the square function returns 4.
+>
+> (The "Return value" in the square() frame is not a name binding; instead it indicates the value returned by the function call that created the frame.)
+
+### Another instance
+
+Consider:
+	from operator import mul
+	x = 1;
+	def square(x):
+		return mul(x, x)
+
+Inputting
+	square(-2)
+
+returns
+	4
+
+And inputting
+	x
+
+returns
+	1
+
+instead of -2. This means the x in square(x) is the so-called _local variable_ as in _Mathematica_.
+
+But, how can this _local variable_ be created in interpreter? Just embedding into frames?
+	
+
+### A Possible Solution
+	
+One possible solution I can imagine is binding local name (i.e. name of local variable) with the name of the called function. For instance, for this x in square(x) is re-named in the local frame of square(x) when it is called as
+	x_INVALID-NOTATION_square 
+
+where  "INVALID-NOTATION" denotes any notation that is invalid in naming a variable in the language.
+
+
+
 
 
 ### Analogy to _Mathematica_
 
-It is something like the "<name> $ <random number>" trick in _Mathematica_ for defining local variables, collection of which defines the local frame in "Module[]".
+It is something like the "<name>" + "$" + "<random number>" trick in _Mathematica_ for defining local variables, collection of which defines the local frame in "Module[]".
