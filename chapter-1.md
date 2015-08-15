@@ -154,10 +154,31 @@ One possible solution I can imagine is binding local name (i.e. name of local va
 
 where  "INVALID-NOTATION" denotes any notation that is invalid in naming a variable in the language.
 
-
-
-
-
 ### Analogy to _Mathematica_
 
 It is something like the "<name>" + "$" + "<random number>" trick in _Mathematica_ for defining local variables, collection of which defines the local frame in "Module[]".
+
+
+## 'Black Box' Abstraction
+
+> We can write sum_squares without concerning ourselves with _how_ to square a number. The details of how the square is computed can be suppressed.
+>
+> In other words, a function definition should be able to suppress details. The users of the function may not have written the function themselves, but may have obtained it from another programmer as a "black box". *A programmer should not need to know how the function is implemented in order to use it.* The Python Library has this property. Many developers use the functions defined there, but few ever inspect their implementation.
+
+
+## Guide on Naming Functions and Parameters
+
+> 1. Function names are lowercase, with words separated by underscores. Descriptive names are encouraged.
+>
+> 1. Function names typically evoke operations applied to arguments by the interpreter (e.g., print, add, square) or the name of the quantity that results (e.g., max, abs, sum).
+>
+> 1. Parameter names are lowercase, with words separated by underscores. Single-word names are preferred.
+>
+> 1. Parameter names should evoke the role of the parameter in the function, not just the kind of argument that is allowed.
+>
+> 1. Single letter parameter names are acceptable when their role is obvious, but avoid "l" (lowercase ell), "O" (capital oh), or "I" (capital i) to avoid confusion with numerals.
+
+### Pity
+
+> There are many exceptions to these guidelines, even in the Python standard library. Like the vocabulary of the English language, Python has inherited words from a variety of contributors, and the result is not always consistent.
+
