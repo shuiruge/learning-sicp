@@ -182,3 +182,61 @@ It is something like the "<name>" + "$" + "<random number>" trick in _Mathematic
 
 > There are many exceptions to these guidelines, even in the Python standard library. Like the vocabulary of the English language, Python has inherited words from a variety of contributors, and the result is not always consistent.
 
+# The Art  of the Function
+
+> Fundamentally, the qualities of good functions all reinforce the idea that functions are abstractions.
+>
+> 1. Each function should have exactly one job. That job should be identifiable with a short name and characterizable in a single line of text. Functions that perform multiple jobs in sequence should be divided into multiple functions.
+> 1. Don't repeat yourself is a central tenet of software engineering. The so-called DRY principle states that multiple fragments of code should not describe redundant logic. Instead, that logic should be implemented once, given a name, and applied multiple times. If you find yourself copying and pasting a block of code, you have probably found an opportunity for functional abstraction.
+> 1. Functions should be defined generally. Squaring is not in the Python Library precisely because it is a special case of the pow function, which raises numbers to arbitrary powers.
+
+But how to ensure these? Python provides several features to support these efforts, stated as follow.
+
+## "docstring"
+
+> A function definition will often include documentation describing the function, called a docstring, which must be indented along with the function body. Docstrings are conventionally triple quoted. The first line describes the job of the function in one line. The following lines can describe arguments and clarify the behavior of the function:
+
+	def pressure(v, t, n):
+		"""Compute the pressure in pascals of an ideal gas.
+
+        Applies the ideal gas law: http://en.wikipedia.org/wiki/Ideal_gas_law
+
+        v -- volume of gas, in cubic meters
+        t -- absolute temperature in degrees kelvin
+        n -- particles of gas
+        """
+        k = 1.38e-23  # Boltzmann's constant
+        return n * k * t / v
+
+> When you call help with the name of a function as an argument, you see its docstring
+
+	help(pressure)
+
+> *When writing Python programs, include docstrings for all but the simplest functions. Remember, code is written only once, but often read many times.*
+
+## Comment
+
+> Comments in Python can be attached to the end of a line following the # symbol. For example, the comment Boltzmann's constant above describes k. These comments don't ever appear in Python's help, and they are ignored by the interpreter. They exist for *the author* alone.
+
+## Default argument value
+
+> A consequence of defining general functions is the introduction of additional arguments. Functions with many arguments can be awkward to call and difficult to read.
+
+An instance: (*Notice the change in the docstring!!!*)
+	 Boltzmann_K = 1.38e-23  # Boltzmann's constant
+	 def pressure(v, t, n=6.022e23):
+		 """Compute the pressure in pascals of an ideal gas.
+
+            v -- volume of gas, in cubic meters
+            t -- absolute temperature in degrees kelvin
+            n -- particles of gas (default: one mole)
+        """
+        return n * Boltzmann_K * t / v
+
+> In the def statement header, = does not perform assignment, but instead indicates a default value to use when the pressure function is called. So,
+
+	>>> pressure(1, 273.15)
+	2269.974834
+	>>> pressure(1, 273.15, 3 * 6.022e23)
+	6809.924502
+
