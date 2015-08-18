@@ -240,3 +240,44 @@ An instance: (*Notice the change in the docstring!!!*)
 	>>> pressure(1, 273.15, 3 * 6.022e23)
 	6809.924502
 
+
+# Control Flow
+
+(Sec. 1.5.)
+
+## Statements
+
+(Sec. 1.5.1 + 1.5.2.)
+
+> We can also understand multi-line programs now.
+> 
+> * To execute a sequence of statements, execute the first statement. If that statement does not redirect control, then proceed to execute the rest of the sequence of statements, if any remain.
+>
+> This definition exposes the essential structure of a recursively defined sequence: a sequence can be decomposed into its first element and the rest of its elements. The "rest" of a sequence of statements is itself a sequence of statements! Thus, we can recursively apply this execution rule. This view of sequences as recursive data structures will appear again in later chapters.
+>
+> The important consequence of this rule is that statements are executed in order, but later statements may never be reached, because of redirected control.
+
+
+## Local Variable
+
+(Sec. 1.5.3.)
+
+> Whenever a user-defined function is applied, the sequence of clauses in the suite of its definition is executed in a local environment. A return statement redirects control: the process of function application terminates whenever the first return statement is executed, and the value of the return expression is the returned value of the function being applied.
+>
+> Thus, assignment statements can now appear within a function body.
+
+	def percent_difference(x, y):
+		""" Returns the absolute difference between
+			two quantities as a percentage of the first.
+		"""
+	    difference = abs(x-y)
+	    return 100 * difference / x
+	result = percent_difference(40, 50)
+
+> The effect of an assignment statement is to bind a name to a value in the first frame of the current environment. As a consequence, assignment statements within a function body cannot affect the global frame.
+
+
+## Conditional Statements
+
+(Sec. 1.5.4.)
+
