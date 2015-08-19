@@ -7,7 +7,13 @@ This draft based on the lecture at [here](http://inst.eecs.berkeley.edu/~cs61a/b
 
 > A name evaluates to the value associated with that name in the current environment.
 
-This quotation recovers the reason of naming it as "environment". Indeed, *embeding* a name (not string) into an environment is to look up the temporal memory to find out what this name is binded by. A name has its meaning only when the environment embeding it is indicated.
+This quotation recovers the reason of naming it as "environment", as a perfect analogy to the word in human language. Indeed, environment generally includes two essences:
+1. bindings by which values are assigned to names, stored in memory;
+1. the state of interpreter, directing the next behavior of CPU.
+
+### Define of Environment
+
+Summing up, *environment means the state of your computer.*
 
 
 ## Evaluate and Execute
@@ -27,22 +33,25 @@ This quotation recovers the reason of naming it as "environment". Indeed, *embed
 1. Non-pure function can be illustrated by the following two instances:
 
 > A nested expression of calls to print highlights the non-pure character of the function.
->
->    >>> print(print(1), print(2))
->    1
->	 2
->	 None None
->
+
+    >>> print(print(1), print(2))
+	1
+	2
+	None None
+
 > If you find this output to be unexpected, *draw an expression tree* to clarify why evaluating this expression produces this peculiar output.
 
 and
 
->    >>> two = print(2)
->    2
->    >>> print(two)
->    None
+    >>> two = print(2)
+    2
+    >>> print(two)
+    None
+
 In this instance, "two" is assigned to the output of "print(2)", which is "None". If you try
+
 	two
+
 it returns nothing, since "None" in Python means nothing to return. How to display the value of two, i.e. the output of "print(2)", so that we can ensure "print()" is a non-pure function as shown? It can be
 	print(two)
 As we have seen, it returns the output of "print(2)", which is "None"!
@@ -63,8 +72,8 @@ As we have seen, it returns the output of "print(2)", which is "None"!
 
 The syntax is
 
-> def <name>(<formal parameters>):
->     return <return expression>
+	def <name>(<formal parameters>):
+		return <return expression>
 
 The second line must be *indented*! Convention dictates that we indent with four spaces.
 
@@ -125,18 +134,22 @@ Calling for user-defined function envokes a _local frame_. An instance to declar
 ### Another instance
 
 Consider:
+
 	from operator import mul
 	x = 1;
 	def square(x):
 		return mul(x, x)
 
 Inputting
+
 	square(-2)
 
 returns
+
 	4
 
 And inputting
+
 	x
 
 returns
@@ -281,3 +294,15 @@ An instance: (*Notice the change in the docstring!!!*)
 
 (Sec. 1.5.4.)
 
+	if <expression>:
+		<suite>
+	elif <expression>:
+		<suite>
+	else:
+		<suite>
+
+> When executing a conditional statement, each clause is considered in order. The computational process of executing a conditional clause follows.
+>
+> 1. Evaluate the header's expression.
+> 1. If it is a true value, execute the suite. Then, skip over all subsequent clauses in the conditional statement.
+>If the else clause is reached (which only happens if all if and elif expressions evaluate to false values), its suite is executed.
