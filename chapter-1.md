@@ -306,3 +306,17 @@ An instance: (*Notice the change in the docstring!!!*)
 > 1. Evaluate the header's expression.
 > 1. If it is a true value, execute the suite. Then, skip over all subsequent clauses in the conditional statement.
 >If the else clause is reached (which only happens if all if and elif expressions evaluate to false values), its suite is executed.
+
+## Iteration
+
+A while clause contains a header expression followed by a suite:
+
+	while <expression>:
+		<suite>
+
+To execute a while clause:
+
+1. Evaluate the header's expression.
+1. If it is a true value, execute the suite, then return to step 1.
+
+
