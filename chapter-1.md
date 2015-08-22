@@ -1,19 +1,19 @@
 This draft based on the lecture at [here](http://inst.eecs.berkeley.edu/~cs61a/book/chapters/functions.html).
 
+I will drop the quotation notation, which makes this note not that clear. In fact, most of this content is quotated from the lecture.
+
 
 # Basics I
 
 ## Environment
 
-> A name evaluates to the value associated with that name in the current environment.
-
-This quotation recovers the reason of naming it as "environment", as a perfect analogy to the word in human language. Indeed, environment generally includes two essences:
+The name of a newly met conception shall envoke imagination in almost everyone's mind a daily conception that is an analogy as perfect as possible. This name "environment" does so. Indeed, environment generally includes two essences:
 1. bindings by which values are assigned to names, stored in memory;
 1. the state of interpreter, directing the next behavior of CPU.
 
 ### Define of Environment
 
-Summing up, *environment means the state of your computer.*
+Summing up, *environment means the state of your computer,* which is the environment (daily conception) the programme is embedded.
 
 
 ## Evaluate and Execute
@@ -318,5 +318,69 @@ To execute a while clause:
 
 1. Evaluate the header's expression.
 1. If it is a true value, execute the suite, then return to step 1.
+
+
+## Testing
+
+There are at two ways of testings for now:
+1. Assertion;
+1. Docstring.
+
+### Assertion
+
+	>>> assert fib(8) == 13, 'The 8th Fibonacci number should be 13'
+
+When the expression being asserted evaluates to a true value, executing an assert statement has no effect. When it is a false value, assert causes an error that halts execution.
+
+Or, an "assertion function" can be constructed:
+
+	def fib_test():
+        assert fib(2) == 1, 'The 2nd Fibonacci number should be 1'
+        assert fib(3) == 1, 'The 3rd Fibonacci number should be 1'
+        assert fib(50) == 7778742049, 'Error at the 50th Fibonacci number'
+
+When writing Python in files, rather than directly into the interpreter, tests are typically written in the same file or a neighboring file with the suffix _test.py.
+
+
+### Docstring
+
+Python provides a convenient method for placing simple tests directly in the docstring of a function. The first line of a docstring should contain a one-line description of the function, followed by a blank line. A detailed description of arguments and behavior may follow.
+
+	def sum_naturals(n):
+        """Return the sum of the first n natural numbers.
+
+        >>> sum_naturals(10)
+        55
+        >>> sum_naturals(100)
+        5050
+        """
+        total, k = 0, 1
+        while k <= n:
+            total, k = total + k, k + 1
+        return total
+
+For tesing, run:
+	
+	>>> from doctest import run_docstring_examples
+	>>> run_docstring_examples(sum_naturals, globals(), True)
+		Finding tests in NoName
+		Trying:
+			sum_naturals(10)
+		Expecting:
+			55
+		ok
+		Trying:
+			sum_naturals(100)
+		Expecting:
+			5050
+		ok
+
+When the return value of a function does not match the expected result, the run_docstring_examples function will report this problem as a test failure.
+
+Or, just run in command-line:
+
+	python3 -m doctest <python_source_file>
+
+It is even good practice to write some tests before you implement, in order to have some example inputs and outputs in your mind.
 
 
