@@ -384,3 +384,108 @@ Or, just run in command-line:
 It is even good practice to write some tests before you implement, in order to have some example inputs and outputs in your mind.
 
 
+# Summary 1
+
+For now:
+1. The basic syntax of Python on function defining have been shown, including
+   1. def
+   1. documentation
+   1. if-else
+   1. while
+   1. doctest & assertion
+1. The important conception "environment" has been declared: It means the state of your computer.
+1. Abstraction: A repetitious pattern (for now, it is values) shall be abstracted out, by, such as, defining a function. After assigning a name to it, we then just need to call this name again and again.
+
+In the next, we will learn higher-order function.
+
+
+# Higher-Order Function
+
+To express certain general patterns as named concepts, we will need to construct functions that can accept other functions as arguments or return functions as values. Functions that manipulate functions are called _higher-order functions_.
+
+A wonderful instance is shown in the lecture ([here] (http://inst.eecs.berkeley.edu/~cs61a/book/chapters/functions.html#functions-as-arguments) is the link). It is concise enough that any re-statement may be foolish.
+
+
+## General Function
+
+*Repetition is the power of computer.* So, we shall keep function defined general as possible as we can, so that an user-defined function can be applied here and there, with so many times. This is what we call the abstraction of function.
+
+### Instance: Golden-ratio
+
+First,
+
+	def improve(update, isclose, guess=1):
+        while not isclose(guess):
+            guess = update(guess)
+        return guess
+
+*This function "improve" represents a general algorithm, by which many tasks, such as Newton's method of solving formula, finding pi, finding square of a number, can be done!!*
+
+For this specific instance, we just need to fill in the parameters "update" and "isclose".
+
+While, "isclose" can also be general:
+
+	def near(x, f, g):
+        return approx_eq(f(x), g(x))
+
+	def approx_eq(x, y, tolerance=1e-3):
+        return abs(x - y) < tolerance
+
+These are general definition of (the word) "near". For our instance, "isclose" shall be constructed from the definition of words, as:
+
+	def square_near_successor(guess):
+        return near(guess, square, successor)
+
+where
+	def square(x):
+	    return x * x
+
+	def successor(x):
+	    return x + 1
+
+So, it is only the parameter "update" that is specific for our instance. By mathematical rule, it is defined as:
+
+	def golden_update(guess):
+        return 1/guess + 1
+
+Finally, golden_ratio can be gained by calling:
+	
+	>>> improve(golden_update, square_near_successor)
+	1.6180371352785146
+
+### Testing
+
+Mathematically, there is another formula for golden_ratio, which is
+
+	phi = 1/2 + pow(5, 1/2)/2
+
+It can be used as a testing for our previous definition of functions:
+
+	def near_test():
+        assert near(phi, square, successor), 'phi * phi is not near phi + 1'
+
+	def improve_test():def improve_test():
+        approx_phi = improve(golden_update, square_near_successor)
+        assert approx_eq(phi, approx_phi), 'phi differs from its approximation'
+
+## How Words are Defined and Lojban
+
+(Please skip this section!)
+
+In this section, functions are tried to be viewed as words. We try to illustrate how words are defined. This finally lead us to Lojban.
+
+This instance also illustrates how words, even in natural language, are defined. In computer, functions (words) are defined in a general and abstract way, such as the "near". But, abstraction also brings clearness! (As it is so in the definition of word "symmetry"!)
+
+For simplicity, focus on function "near" and word "near" in English.
+
+	def near(x, f, g):
+        return approx_eq(f(x), g(x))
+
+	def approx_eq(x, y, tolerance=1e-3):
+        return abs(x - y) < tolerance
+
+We say "approximately equal" of A and B in English means more than this definition. Such as saying A's taste and B's taste are approximately equal. Taste does not belong to field of reals, on which "abs()" is defined, on which "approx_eq()" is defined. But, if taste can be numerical, all is right.
+
+Also, in English, we can say two places are near, instead of two real numbers. But if GPS is employed, position of place can be numerical. Then all is right.
+
+But, this numerical property is itself inessential! Indeed, in _Mathematica_, all is replacement. So, in _Mathematica_, function "near()" can be defined empirically. We can define whether "Alice" and "Bob" is near or not (remind that the return of "near()" is boolean). But, this definition is not abstracted, since it is an instance! Must a definition of word in English be abstracted?? 
