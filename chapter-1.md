@@ -489,3 +489,77 @@ We say "approximately equal" of A and B in English means more than this definiti
 Also, in English, we can say two places are near, instead of two real numbers. But if GPS is employed, position of place can be numerical. Then all is right.
 
 But, this numerical property is itself inessential! Indeed, in _Mathematica_, all is replacement. So, in _Mathematica_, function "near()" can be defined empirically. We can define whether "Alice" and "Bob" is near or not (remind that the return of "near()" is boolean). But, this definition is not abstracted, since it is an instance! Must a definition of word in English be abstracted?? 
+
+To be Continued!
+
+
+# Closure
+
+The conception of environment is recursive. For instance, consider locally defined function:
+
+	def sqrt(x):
+        def sqrt_update(guess):
+            return average(guess, x/guess)
+        def sqrt_close(guess):
+            return approx_eq(square(guess), x)
+        return improve(sqrt_update, sqrt_close)
+
+Calling sqrt(256) will evoke a frame of sqrt() where the x is bound to 256. Within this frame, function sqrt\_update() and sqrt\_close() are defined. So, the frame of sqrt() looks like a global for the frames of sqrt\_update() and of sqrt\_close(). This is what the "recursive" means.
+
+This nested design of function definition will happen if, such as in the instance of sqrt(), sqrt\_update() and sqrt\_close() are specifically for constructing the sqrt().
+
+Locally defined functions are often called _closure_.
+
+
+# Function as Returned Values
+
+Consider instance:
+
+	def square(x):
+	    return x * x
+	
+	def successor(x):
+	    return x + 1
+	
+	def compose(x, f, g):
+	    return f(g(x))
+	
+	def add_one_and_square(x):
+		return compose(x, square, successor)
+
+	result = add_one_and_square(12)
+
+
+It can also be (Caution that there is a leap!):
+
+	def square(x):
+	    return x * x
+	
+	def successor(x):
+	    return x + 1
+	
+	def compose1(f, g):
+	    def h(x):
+	        return f(g(x))
+	    return h
+	
+	add_one_and_square = compose1(square, successor)
+	result = add_one_and_square(12)
+
+The first two functions are the same. There is a leap in the difference between these two programmes. This leap is called _functions as returned values_, that is, functions whose returned values are themselves functions. This leap leads us to _currying_.
+
+## Curring
+
+We can use higher-order functions to convert a function that takes multiple arguments into a chain of functions that each take a single argument. More specifically, given a function f(x, y), we can define a function g such that g(x)(y) is equivalent to f(x, y). Here, g is a higher-order function that takes in a single argument x and returns another function that takes in a single argument y. This transformation is called currying.
+
+As an example, we can define a curried version of the pow function:
+
+	>>> def curried_pow(ground):
+        def anonym(power):
+            return pow(ground, power)
+        return anonym
+	>>> curried_pow(2)(3)
+	8
+
+After inputting a "ground", it returns a function with argument x which represents the "pow(2, x)".
+
