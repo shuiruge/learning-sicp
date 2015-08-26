@@ -511,15 +511,23 @@ This nested design of function definition will happen if, such as in the instanc
 Locally defined functions are often called _closure_.
 
 
-# Function as Returned Values
+# Function as Returned "Value"
 
-Consider instance:
+We have met the (pure) function that returns a number as its returned "value". Now, we try to study the (pure) function that returns a function as its returned "value".
+
+*How is this returned function represented? In Python, it is represented by its name.*
+
+### Consider instance:
+
+We want to compose two functions:
 
 	def square(x):
 	    return x * x
 	
 	def successor(x):
 	    return x + 1
+	
+As what we have studied, composition can be as
 	
 	def compose(x, f, g):
 	    return f(g(x))
@@ -529,14 +537,7 @@ Consider instance:
 
 	result = add_one_and_square(12)
 
-
-It can also be (Caution that there is a leap!):
-
-	def square(x):
-	    return x * x
-	
-	def successor(x):
-	    return x + 1
+But, by "Function as Returned 'Value'", it can also be (Caution that there is a leap!):
 	
 	def compose1(f, g):
 	    def h(x):
@@ -544,22 +545,105 @@ It can also be (Caution that there is a leap!):
 	    return h
 	
 	add_one_and_square = compose1(square, successor)
+
 	result = add_one_and_square(12)
 
-The first two functions are the same. There is a leap in the difference between these two programmes. This leap is called _functions as returned values_, that is, functions whose returned values are themselves functions. This leap leads us to _currying_.
+This instance illustates what we have said. The "compose1(f,g)" returns a function, i.e. the (anonymous) function "h(.)"; and, in the "return" sentence, this function is represented by its name, as the "return h" (instead of "return h(x)") shows.
+
+So, we realize that, in Python, the name of a function can represents all materials of the function, which shall originally expressed by its "function signature".
+
+As an instance, "curring" in the next section can makes you understand more on this.
+
 
 ## Curring
+
+### What & Why?
 
 We can use higher-order functions to convert a function that takes multiple arguments into a chain of functions that each take a single argument. More specifically, given a function f(x, y), we can define a function g such that g(x)(y) is equivalent to f(x, y). Here, g is a higher-order function that takes in a single argument x and returns another function that takes in a single argument y. This transformation is called currying.
 
 As an example, we can define a curried version of the pow function:
 
 	>>> def curried_pow(ground):
-        def anonym(power):
-            return pow(ground, power)
-        return anonym
+		    def anonym(power):
+				return pow(ground, power)
+			return anonym
 	>>> curried_pow(2)(3)
 	8
 
 After inputting a "ground", it returns a function with argument x which represents the "pow(2, x)".
+
+Some programming languages, such as Haskell, only allow functions that take a single argument, so the programmer must curry all multi-argument procedures.
+
+### Automate Curring
+
+We can define functions to automate currying. This needs abstraction. *Before any abstraction, several instances shall be shown up!* So, re-consider the previous instance:
+
+	def curried_pow(ground):
+        def anonym(power):
+            return pow(ground, power)
+        return anonym
+
+It curries pow(). Replacing to general notation of argument:
+
+	pow --> func
+	ground --> arg1
+	power --> arg2
+	anonym --> anonym_func
+
+we get the re-writing
+
+	def curry_func(arg1):
+        def anonym_func(arg2):
+            return func(arg1, arg2)
+        return anonym_func
+
+
+This algorithm curries any func to curry_func. Now we define an exacuting function by which, after inputting a func, a curry\_func is automatically defined. So, it shall be written as
+
+	def curry_2_arg_func(func):
+		def curry_func(arg1):
+			def anonym_func(arg2):
+				return func(arg1, arg2)
+			return anonym_func
+		return curry_func
+
+Such as, "curry_2_arg_func(pow)(2)(3)" will return what "pow(2)(3)" returns.
+
+Generally, *taking abstraction after several instances being shown up and taking the general notaion, indeed, is the general way of abstraction, not only at here, but also in (almost) any other area of human cognition!*
+
+## Lambda Expression
+
+	     lambda            x            :          f(g(x))
+	"A function that    takes x    and returns     f(g(x))"
+
+Such as the previous instance of composition,
+
+	def compose1(f, g):
+		return lambda x: f(g(x))
+
+which originally is (re-written)
+
+	def compose1(f, g):
+		def h(x):
+			return f(g(x))
+		return h
+
+
+Some programmers find that using unnamed functions from lambda expressions to be shorter and more direct. However, compound lambda expressions are notoriously illegible, despite their brevity. The following definition is correct, but many programmers have trouble understanding it quickly.
+
+	>>> compose1 = lambda f,g: lambda x: f(g(x))
+
+(Remind that _Programmes are written for human-being to read. By a happy accident, however, it can run on a computer._)
+
+In general, Python style prefers explicit def statements to lambda expressions, but allows them in cases where a simple function is needed as an argument or return value.
+
+### Etymology
+
+The term _lambda_ is a historical accident resulting from the incompatibility of written mathematical notation and the constraints of early type-setting systems.
+
+> It may seem perverse to use lambda to introduce a procedure/function. The notation goes back to Alonzo Church, who in the 1930's started with a "hat" symbol; he wrote the square function as "ŷ . y × y". But frustrated typographers moved the hat to the left of the parameter and changed it to a capital lambda: "Λy . y × y"; from there the capital lambda was changed to lowercase, and now we see "λy . y × y" in math books and (lambda (y) (* y y)) in Lisp.
+
+—Peter Norvig (norvig.com/lispy2.html)
+
+Despite their unusual etymology, lambda expressions and the corresponding formal language for function application, the _lambda calculus_, are fundamental computer science concepts shared far beyond the Python programming community. We will revisit this topic when we study the design of interpreters in Chapter 3.
 
