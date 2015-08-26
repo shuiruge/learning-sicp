@@ -609,7 +609,7 @@ This algorithm curries any func to curry_func. Now we define an exacuting functi
 
 Such as, "curry_2_arg_func(pow)(2)(3)" will return what "pow(2)(3)" returns.
 
-Generally, *taking abstraction after several instances being shown up and taking the general notaion, indeed, is the general way of abstraction, not only at here, but also in (almost) any other area of human cognition!*
+Generally, *taking abstraction after several instances being shown up and taking the general notaion, indeed, is the general way of abstraction, not only at here, but also in (almost) any other area of human cognition!* For this, see also the instance in [this](http://inst.eecs.berkeley.edu/~cs61a/book/chapters/functions.html#functions-as-arguments) section in the website.
 
 ## Lambda Expression
 
