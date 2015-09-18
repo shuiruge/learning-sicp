@@ -641,9 +641,64 @@ In general, Python style prefers explicit def statements to lambda expressions, 
 
 The term _lambda_ is a historical accident resulting from the incompatibility of written mathematical notation and the constraints of early type-setting systems.
 
-> It may seem perverse to use lambda to introduce a procedure/function. The notation goes back to Alonzo Church, who in the 1930's started with a "hat" symbol; he wrote the square function as "ŷ . y × y". But frustrated typographers moved the hat to the left of the parameter and changed it to a capital lambda: "Λy . y × y"; from there the capital lambda was changed to lowercase, and now we see "λy . y × y" in math books and (lambda (y) (* y y)) in Lisp.
+> It may seem perverse to use lambda to introduce a procedure/function. The notation goes back to Alonzo Church, who in the 1930's started with a "hat" symbol; he wrote the square function as "ŷ . y × y". But frustrated typographers moved the hat to the left of the parameter and changed it to a capital lambda: "Λy . y × y"; from there the capital lambda was changed to lowercase, and now we see "λy . y × y" in math books and (lambda (y) (\* y y)) in Lisp.
 
 —Peter Norvig (norvig.com/lispy2.html)
 
 Despite their unusual etymology, lambda expressions and the corresponding formal language for function application, the _lambda calculus_, are fundamental computer science concepts shared far beyond the Python programming community. We will revisit this topic when we study the design of interpreters in Chapter 3.
+
+
+## First-class Status
+
+In general, programming languages impose restrictions on the ways in which computational elements can be manipulated. Elements with the fewest restrictions are said to have _first-class status_. Some of the "rights and privileges" of first-class elements are:
+
+1. They may be bound to names.
+1. They may be passed as arguments to functions.
+1. They may be returned as the results of functions.
+1. They may be included in data structures.
+
+Python awards functions full first-class status, and the resulting gain in expressive power is enormous.
+
+# Recursive Function
+
+## [Instance: Pig Latin](http://inst.eecs.berkeley.edu/~cs61a/book/chapters/functions.html#recursive-functions)
+
+	def pig_latin(w):
+        """Return the Pig Latin equivalent of a lowercase English word w."""
+        if starts_with_a_vowel(w):
+            return w + 'ay'
+        return pig_latin(w[1:] + w[0])
+	def starts_with_a_vowel(w):
+		"""Return whether w begins with a vowel."""
+		c = w[0]
+        return c == 'a' or c == 'e' or c == 'i' or c == 'o' or c == 'u'
+
+	pig_latin('pun')
+
+By its environment diagram shown in the web-page, we find that, calling pig\_latin('pun') will create two frames of pig\_latin, even though this recursive function is intrinsically iterative! This is reasonable, since they have different local variables: for the first frame, w is bound to 'pun'; while for the second, w is bound to 'unp'.
+
+(Recursive function that is intrinsically recursive is something like
+
+	def factorial(n):
+		if n == 1:
+			return n
+		return n * factorial(n-1)
+
+Calling factorial(3) will return
+
+	3 * factorial( 2 * factorial(1) )
+
+which naturally involves three different local frames of factorial().)
+
+
+
+# Summary of Chapter 1
+
+## Conception Review
+
+
+## Abstraction
+
+The important thing is that *do not to write the same thing twice!* These words directly lead to _abstraction (of pattern)_ in programming. To illustrate this, a concise (too concise to be re-stated) instance is shown in the [lecture](http://inst.eecs.berkeley.edu/~cs61a/book/chapters/functions.html#functions-as-arguments).
+
 
