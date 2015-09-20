@@ -690,12 +690,24 @@ Calling factorial(3) will return
 
 which naturally involves three different local frames of factorial().)
 
+## Different Patterns of Recursion
+
+### [Mutual Recursion](http://inst.eecs.berkeley.edu/~cs61a/book/chapters/functions.html#id45)
+
+### [Tree Recursion](http://inst.eecs.berkeley.edu/~cs61a/book/chapters/functions.html#id46)
+
+In the instance therein, fib(3), for instance, is calculated many times. This repetation is a waste of resource!!
+
+One should not conclude from this difference that tree-recursive processes are useless. When we consider processes that operate on hierarchically structured data rather than numbers, we will find that tree recursion is a natural and powerful tool. Furthermore, tree-recursive processes can often be made more efficient, as we will see in Chapter 3.
+
+
 
 
 # Summary of Chapter 1
 
 ## Conception Review
 
+## Basic Python Functions and Their Syntax
 
 ## Abstraction
 
