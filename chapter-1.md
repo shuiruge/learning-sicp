@@ -734,49 +734,51 @@ One should not conclude from this difference that tree-recursive processes are u
 
 * def
 
-	def <name>(<formal parameters>):
-		return <return expression>
+		def <name>(<formal parameters>):
+			return <return expression>
 
 * docstring & Testing via docstring
 
-    def <name>(<formal parameters>):
-		"""
-			<docstring>
+
+		def <name>(<formal parameters>):
+			"""
+				<docstring>
 			
-			>>> <test>
-			<result of test>
-		"""
-		<codes>
+				>>> <test>
+				<result of test>
+			"""
+			<codes>
 
 * Comment (out): \#
 
 * if-else
 
-	if <expression true?>:
-		<suite>
-	elif <expression true?>:
-		<suite>
-	else:
-		<suite>
+		if <expression true?>:
+			<suite>
+		elif <expression true?>:
+			<suite>
+		else:
+			<suite>
 
 * while
 
-	while <expression true?>:
-		<suite>
+		while <expression true?>:
+			<suite>
 
 
 
-	
-
-### Habit
+### Habit for a Better Coding
 
 * Function signature
 * Using pure function
 * Naming functions and parameters
 
+
 ### Abstraction
 
-The important thing is that *do not to write the same thing twice!* These words directly lead to _abstraction (of pattern)_ in programming. To illustrate this, a concise (too concise to be re-stated) instance is shown in the [lecture](http://inst.eecs.berkeley.edu/~cs61a/book/chapters/functions.html#functions-as-arguments).
+The important thing is that *do not to write the same thing twice!* These words directly lead to _abstraction (of pattern)_ in programming. To illustrate this, a concise (too concise to be re-stated) instance is shown in the [lecture](http://inst.eecs.berkeley.edu/~cs61a/book/chapters/functions.html#functions-as-arguments)!!
+
+First-class status setting of Python provides vast tools for establishing this abstraction (of pattern)!
 
 
 
