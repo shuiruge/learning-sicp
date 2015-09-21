@@ -737,17 +737,18 @@ One should not conclude from this difference that tree-recursive processes are u
 	def <name>(<formal parameters>):
 		return <return expression>
 
-* docstring
+* docstring & Testing via docstring
 
-	def <name>(v, t, n):
-	    """ <docstring>
-			......
-		>>> <test>
-		<result of test>
+    def <name>(<formal parameters>):
+		"""
+			<docstring>
+			
+			>>> <test>
+			<result of test>
 		"""
 		<codes>
 
-* # (Comment (out))
+* Comment (out): \#
 
 * if-else
 
