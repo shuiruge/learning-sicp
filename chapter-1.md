@@ -3,20 +3,20 @@ This draft based on the lecture at [here](http://inst.eecs.berkeley.edu/~cs61a/b
 I will drop the quotation notation, which makes this note not that clear. In fact, most of this content is quotated from the lecture.
 
 
-# Basics I
+## Basics I
 
-## Environment
+### Environment
 
 The name of a newly met conception shall envoke imagination in almost everyone's mind a daily conception that is an analogy as perfect as possible. This name "environment" does so. Indeed, environment generally includes two essences:
 1. bindings by which values are assigned to names, stored in memory;
 1. the state of interpreter, directing the next behavior of CPU.
 
-### Define of Environment
+#### Define of Environment
 
 Summing up, *environment means the state of your computer,* which is the environment (daily conception) the programme is embedded.
 
 
-## Evaluate and Execute
+### Evaluate and Execute
 
 1. "Evaluate" means a map from the set combined by the set of expressions and the set of enviroments to (their indicated) values.
 1. "Execute" means a map from the set of environments to itself.
@@ -26,7 +26,7 @@ Summing up, *environment means the state of your computer,* which is the environ
 
 
 
-## Pure and Non-pure Function
+### Pure and Non-pure Function
 
 1. Pure function is easy to understand.
 
@@ -56,7 +56,7 @@ it returns nothing, since "None" in Python means nothing to return. How to displ
 	print(two)
 As we have seen, it returns the output of "print(2)", which is "None"!
 
-### Benefit of Pure Function
+#### Benefit of Pure Function
 
 > Pure functions are restricted in that they cannot have side effects or change behavior over time. Imposing these restrictions yields substantial benefits. First, pure functions can be composed more reliably into compound call expressions. We can see in the non-pure function example above that print does not return a useful result when used in an operand expression. On the other hand, we have seen that functions such as max, pow and sqrt can be used effectively in nested expressions.
 >
@@ -66,9 +66,9 @@ As we have seen, it returns the output of "print(2)", which is "None"!
 
 
 
-# Function
+## Function
 
-## Define a Function
+### Define a Function
 
 The syntax is
 
@@ -78,13 +78,13 @@ The syntax is
 The second line must be *indented*! Convention dictates that we indent with four spaces.
 
 
-## Environment (Again)
+### Environment (Again)
 
-### Environment Diagram
+#### Environment Diagram
 
 This _environment diagram_ shows the bindings of the current environment, along with the values to which names are bound.
 
-### Frames
+#### Frames
 
 "Frame" is defined as:
 
@@ -92,7 +92,7 @@ This _environment diagram_ shows the bindings of the current environment, along 
 >
 >There is a single global frame.
 
-### Function Signature
+#### Function Signature
 
 "Function signature" is defined as:
 
@@ -105,9 +105,9 @@ The function max can take an arbitrary number of arguments. It is rendered as ma
 Function signature is used in the construction of the environment diagram.
 
 
-## Calling for User-defined Function
+### Calling for User-defined Function
 
-### Local Frame
+#### Local Frame
 
 Calling for user-defined function envokes a _local frame_. An instance to declare it is stated as follow.
 
@@ -117,7 +117,7 @@ Calling for user-defined function envokes a _local frame_. An instance to declar
 > Execute the body of the function in the environment that starts with this frame.
 > The environment in which the body is evaluated consists of two frames: first the local frame that contains formal parameter bindings, then the global frame that contains everything else. Each instance of a function application has its own independent local frame.
 
-### Instance:
+#### Instance:
 
 	from operator import mul
 	def square(x):
@@ -131,7 +131,7 @@ Calling for user-defined function envokes a _local frame_. An instance to declar
 >
 > (The "Return value" in the square() frame is not a name binding; instead it indicates the value returned by the function call that created the frame.)
 
-### Another instance
+#### Another instance
 
 Consider:
 
@@ -160,26 +160,26 @@ instead of -2. This means the x in square(x) is the so-called _local variable_ a
 But, how can this _local variable_ be created in interpreter? Just embedding into frames?
 	
 
-### A Possible Solution
+#### A Possible Solution
 	
 One possible solution I can imagine is binding local name (i.e. name of local variable) with the name of the called function. For instance, for this x in square(x) is re-named in the local frame of square(x) when it is called as
 	x_INVALID-NOTATION_square 
 
 where  "INVALID-NOTATION" denotes any notation that is invalid in naming a variable in the language.
 
-### Analogy to _Mathematica_
+#### Analogy to _Mathematica_
 
 It is something like the "<name>" + "$" + "<random number>" trick in _Mathematica_ for defining local variables, collection of which defines the local frame in "Module[]".
 
 
-## 'Black Box' Abstraction
+### 'Black Box' Abstraction
 
 > We can write sum_squares without concerning ourselves with _how_ to square a number. The details of how the square is computed can be suppressed.
 >
 > In other words, a function definition should be able to suppress details. The users of the function may not have written the function themselves, but may have obtained it from another programmer as a "black box". *A programmer should not need to know how the function is implemented in order to use it.* The Python Library has this property. Many developers use the functions defined there, but few ever inspect their implementation.
 
 
-## Guide on Naming Functions and Parameters
+### Guide on Naming Functions and Parameters
 
 > 1. Function names are lowercase, with words separated by underscores. Descriptive names are encouraged.
 >
@@ -191,11 +191,11 @@ It is something like the "<name>" + "$" + "<random number>" trick in _Mathematic
 >
 > 1. Single letter parameter names are acceptable when their role is obvious, but avoid "l" (lowercase ell), "O" (capital oh), or "I" (capital i) to avoid confusion with numerals.
 
-### Pity
+#### Pity
 
 > There are many exceptions to these guidelines, even in the Python standard library. Like the vocabulary of the English language, Python has inherited words from a variety of contributors, and the result is not always consistent.
 
-# The Art  of the Function
+## The Art  of the Function
 
 > Fundamentally, the qualities of good functions all reinforce the idea that functions are abstractions.
 >
@@ -205,7 +205,7 @@ It is something like the "<name>" + "$" + "<random number>" trick in _Mathematic
 
 But how to ensure these? Python provides several features to support these efforts, stated as follow.
 
-## "docstring"
+### "docstring"
 
 > A function definition will often include documentation describing the function, called a docstring, which must be indented along with the function body. Docstrings are conventionally triple quoted. The first line describes the job of the function in one line. The following lines can describe arguments and clarify the behavior of the function:
 
@@ -227,11 +227,11 @@ But how to ensure these? Python provides several features to support these effor
 
 > *When writing Python programs, include docstrings for all but the simplest functions. Remember, code is written only once, but often read many times.*
 
-## Comment
+### Comment
 
 > Comments in Python can be attached to the end of a line following the # symbol. For example, the comment Boltzmann's constant above describes k. These comments don't ever appear in Python's help, and they are ignored by the interpreter. They exist for *the author* alone.
 
-## Default argument value
+### Default argument value
 
 > A consequence of defining general functions is the introduction of additional arguments. Functions with many arguments can be awkward to call and difficult to read.
 
@@ -254,11 +254,11 @@ An instance: (*Notice the change in the docstring!!!*)
 	6809.924502
 
 
-# Control Flow
+## Control Flow
 
 (Sec. 1.5.)
 
-## Statements
+### Statements
 
 (Sec. 1.5.1 + 1.5.2.)
 
@@ -271,7 +271,7 @@ An instance: (*Notice the change in the docstring!!!*)
 > The important consequence of this rule is that statements are executed in order, but later statements may never be reached, because of redirected control.
 
 
-## Local Variable
+### Local Variable
 
 (Sec. 1.5.3.)
 
@@ -290,7 +290,7 @@ An instance: (*Notice the change in the docstring!!!*)
 > The effect of an assignment statement is to bind a name to a value in the first frame of the current environment. As a consequence, assignment statements within a function body cannot affect the global frame.
 
 
-## Conditional Statements
+### Conditional Statements
 
 (Sec. 1.5.4.)
 
@@ -307,7 +307,7 @@ An instance: (*Notice the change in the docstring!!!*)
 > 1. If it is a true value, execute the suite. Then, skip over all subsequent clauses in the conditional statement.
 >If the else clause is reached (which only happens if all if and elif expressions evaluate to false values), its suite is executed.
 
-## Iteration
+### Iteration
 
 A while clause contains a header expression followed by a suite:
 
@@ -320,13 +320,13 @@ To execute a while clause:
 1. If it is a true value, execute the suite, then return to step 1.
 
 
-## Testing
+### Testing
 
 There are at two ways of testings for now:
 1. Assertion;
 1. Docstring.
 
-### Assertion
+#### Assertion
 
 	>>> assert fib(8) == 13, 'The 8th Fibonacci number should be 13'
 
@@ -342,7 +342,7 @@ Or, an "assertion function" can be constructed:
 When writing Python in files, rather than directly into the interpreter, tests are typically written in the same file or a neighboring file with the suffix _test.py.
 
 
-### Docstring
+#### Docstring
 
 Python provides a convenient method for placing simple tests directly in the docstring of a function. The first line of a docstring should contain a one-line description of the function, followed by a blank line. A detailed description of arguments and behavior may follow.
 
@@ -384,7 +384,7 @@ Or, just run in command-line:
 It is even good practice to write some tests before you implement, in order to have some example inputs and outputs in your mind.
 
 
-# Summary 1
+## Summary 1
 
 For now:
 1. The basic syntax of Python on function defining have been shown, including
@@ -399,18 +399,18 @@ For now:
 In the next, we will learn higher-order function.
 
 
-# Higher-Order Function
+## Higher-Order Function
 
 To express certain general patterns as named concepts, we will need to construct functions that can accept other functions as arguments or return functions as values. Functions that manipulate functions are called _higher-order functions_.
 
 A wonderful instance is shown in the lecture ([here] (http://inst.eecs.berkeley.edu/~cs61a/book/chapters/functions.html#functions-as-arguments) is the link). It is concise enough that any re-statement may be foolish.
 
 
-## General Function
+### General Function
 
 *Repetition is the power of computer.* So, we shall keep function defined general as possible as we can, so that an user-defined function can be applied here and there, with so many times. This is what we call the abstraction of function.
 
-### Instance: Golden-ratio
+#### Instance: Golden-ratio
 
 First,
 
@@ -453,7 +453,7 @@ Finally, golden_ratio can be gained by calling:
 	>>> improve(golden_update, square_near_successor)
 	1.6180371352785146
 
-### Testing
+#### Testing
 
 Mathematically, there is another formula for golden_ratio, which is
 
@@ -468,7 +468,7 @@ It can be used as a testing for our previous definition of functions:
         approx_phi = improve(golden_update, square_near_successor)
         assert approx_eq(phi, approx_phi), 'phi differs from its approximation'
 
-## How Words are Defined and Lojban
+### How Words are Defined and Lojban
 
 (Please skip this section!)
 
@@ -493,7 +493,7 @@ But, this numerical property is itself inessential! Indeed, in _Mathematica_, al
 To be Continued!
 
 
-# Closure
+## Closure
 
 The conception of environment is recursive. For instance, consider locally defined function:
 
@@ -511,13 +511,13 @@ This nested design of function definition will happen if, such as in the instanc
 Locally defined functions are often called _closure_.
 
 
-# Function as Returned "Value"
+## Function as Returned "Value"
 
 We have met the (pure) function that returns a number as its returned "value". Now, we try to study the (pure) function that returns a function as its returned "value".
 
 *How is this returned function represented? In Python, it is represented by its name.*
 
-### Consider instance:
+#### Consider instance:
 
 We want to compose two functions:
 
@@ -555,9 +555,9 @@ So, we realize that, in Python, the name of a function can represents all materi
 As an instance, "curring" in the next section can makes you understand more on this.
 
 
-## Curring
+### Curring
 
-### What & Why?
+#### What & Why?
 
 We can use higher-order functions to convert a function that takes multiple arguments into a chain of functions that each take a single argument. More specifically, given a function f(x, y), we can define a function g such that g(x)(y) is equivalent to f(x, y). Here, g is a higher-order function that takes in a single argument x and returns another function that takes in a single argument y. This transformation is called currying.
 
@@ -574,7 +574,7 @@ After inputting a "ground", it returns a function with argument x which represen
 
 Some programming languages, such as Haskell, only allow functions that take a single argument, so the programmer must curry all multi-argument procedures.
 
-### Automate Curring
+#### Automate Curring
 
 We can define functions to automate currying. This needs abstraction. *Before any abstraction, several instances shall be shown up!* So, re-consider the previous instance:
 
@@ -611,7 +611,7 @@ Such as, "curry_2_arg_func(pow)(2)(3)" will return what "pow(2)(3)" returns.
 
 Generally, *taking abstraction after several instances being shown up and taking the general notaion, indeed, is the general way of abstraction, not only at here, but also in (almost) any other area of human cognition!* For this, see also the instance in [this](http://inst.eecs.berkeley.edu/~cs61a/book/chapters/functions.html#functions-as-arguments) section in the website.
 
-## Lambda Expression
+### Lambda Expression
 
 	     lambda            x            :          f(g(x))
 	"A function that    takes x    and returns     f(g(x))"
@@ -637,7 +637,7 @@ Some programmers find that using unnamed functions from lambda expressions to be
 
 In general, Python style prefers explicit def statements to lambda expressions, but allows them in cases where a simple function is needed as an argument or return value.
 
-### Etymology
+#### Etymology
 
 The term _lambda_ is a historical accident resulting from the incompatibility of written mathematical notation and the constraints of early type-setting systems.
 
@@ -648,7 +648,7 @@ The term _lambda_ is a historical accident resulting from the incompatibility of
 Despite their unusual etymology, lambda expressions and the corresponding formal language for function application, the _lambda calculus_, are fundamental computer science concepts shared far beyond the Python programming community. We will revisit this topic when we study the design of interpreters in Chapter 3.
 
 
-## First-class Status
+### First-class Status
 
 In general, programming languages impose restrictions on the ways in which computational elements can be manipulated. Elements with the fewest restrictions are said to have _first-class status_. Some of the "rights and privileges" of first-class elements are:
 
@@ -659,9 +659,9 @@ In general, programming languages impose restrictions on the ways in which compu
 
 Python awards functions full first-class status, and the resulting gain in expressive power is enormous.
 
-# Recursive Function
+## Recursive Function
 
-## [Instance: Pig Latin](http://inst.eecs.berkeley.edu/~cs61a/book/chapters/functions.html#recursive-functions)
+### [Instance: Pig Latin](http://inst.eecs.berkeley.edu/~cs61a/book/chapters/functions.html#recursive-functions)
 
 	def pig_latin(w):
         """Return the Pig Latin equivalent of a lowercase English word w."""
@@ -690,11 +690,11 @@ Calling factorial(3) will return
 
 which naturally involves three different local frames of factorial().)
 
-## Different Patterns of Recursion
+### Different Patterns of Recursion
 
-### [Mutual Recursion](http://inst.eecs.berkeley.edu/~cs61a/book/chapters/functions.html#id45)
+#### [Mutual Recursion](http://inst.eecs.berkeley.edu/~cs61a/book/chapters/functions.html#id45)
 
-### [Tree Recursion](http://inst.eecs.berkeley.edu/~cs61a/book/chapters/functions.html#id46)
+#### [Tree Recursion](http://inst.eecs.berkeley.edu/~cs61a/book/chapters/functions.html#id46)
 
 In the instance therein, fib(3), for instance, is calculated many times. This repetation is a waste of resource!!
 
@@ -703,13 +703,13 @@ One should not conclude from this difference that tree-recursive processes are u
 
 
 
-# Summary of Chapter 1
+## Summary of Chapter 1
 
-## Conception Review
+### Conception Review
 
-## Basic Python Functions and Their Syntax
+### Basic Python Functions and Their Syntax
 
-## Abstraction
+### Abstraction
 
 The important thing is that *do not to write the same thing twice!* These words directly lead to _abstraction (of pattern)_ in programming. To illustrate this, a concise (too concise to be re-stated) instance is shown in the [lecture](http://inst.eecs.berkeley.edu/~cs61a/book/chapters/functions.html#functions-as-arguments).
 
