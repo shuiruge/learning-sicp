@@ -254,9 +254,8 @@ An instance: (*Notice the change in the docstring!!!*)
 	6809.924502
 
 
-## Control Flow
+## [Control Flow](http://inst.eecs.berkeley.edu/~cs61a/book/chapters/functions.html#control)
 
-(Sec. 1.5.)
 
 ### Statements
 
@@ -707,10 +706,77 @@ One should not conclude from this difference that tree-recursive processes are u
 
 ### Conception Review
 
-### Basic Python Functions and Their Syntax
+
+* Environment
+	The state of your computer (including its RAM & CPU (what are your computer doing temporarily?)).
+
+    * Frame (Global & Local)
+	    Each call of a function will evoke a local frame (at least for binding argument-name with value bounded to it)!
+		* Environment diagram: *Extremely useful for the understanding of programme.*
+	* Local variable
+	* Evaluate V.S. Execute
+ 
+* High-order function
+	Functions that maps on or/and onto the set of functions.
+
+	* Closure
+	* Currying
+	* Lambda expression (Calling it "anonymous function" is more proper!)
+	* First-class status
+		Python awards functions full first-class status.
+
+* Recursive function (Patterns:)
+	* Mutual recursion
+	* Tree recursion
+
+
+### Basic Python Syntax
+
+* def
+
+	def <name>(<formal parameters>):
+		return <return expression>
+
+* docstring
+
+	def <name>(v, t, n):
+	    """ <docstring>
+			......
+		>>> <test>
+		<result of test>
+		"""
+		<codes>
+
+* # (Comment (out))
+
+* if-else
+
+	if <expression true?>:
+		<suite>
+	elif <expression true?>:
+		<suite>
+	else:
+		<suite>
+
+* while
+
+	while <expression true?>:
+		<suite>
+
+
+
+	
+
+### Habit
+
+* Function signature
+* Using pure function
+* Naming functions and parameters
 
 ### Abstraction
 
 The important thing is that *do not to write the same thing twice!* These words directly lead to _abstraction (of pattern)_ in programming. To illustrate this, a concise (too concise to be re-stated) instance is shown in the [lecture](http://inst.eecs.berkeley.edu/~cs61a/book/chapters/functions.html#functions-as-arguments).
 
 
+
+EOF
