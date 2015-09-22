@@ -721,13 +721,13 @@ One should not conclude from this difference that tree-recursive processes are u
 
 		In Python, any variable included in def-syntax will always be treated as local, _including arguments themselves_.
 
-	* Evaluate V.S. Execute
+* Evaluate V.S. Execute
 
-		Definition:
+	Definition:
 
-			* Evaluate is a map from the set combined by the set of expressions and the set of enviroments to (their indicated) values.
+	* Evaluate is a map from the set combined by the set of expressions and the set of enviroments to (their indicated) values.
 
-			* Execute a map from the set of environments to itself.
+	* Execute a map from the set of environments to itself.
 
 
 * High-order function
