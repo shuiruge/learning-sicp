@@ -505,7 +505,7 @@ The conception of environment is recursive. For instance, consider locally defin
 
 Calling sqrt(256) will evoke a frame of sqrt() where the x is bound to 256. Within this frame, function sqrt\_update() and sqrt\_close() are defined. So, the frame of sqrt() looks like a global for the frames of sqrt\_update() and of sqrt\_close(). This is what the "recursive" means.
 
-This nested design of function definition will happen if, such as in the instance of sqrt(), sqrt\_update() and sqrt\_close() are specifically for constructing the sqrt().
+This nested design of function definition will happen if, such as in the instance of sqrt(), sqrt\_update() and sqrt\_close() are specifically for constructing the sqrt(), _without any other place to be used._
 
 Locally defined functions are often called _closure_.
 
@@ -714,20 +714,32 @@ One should not conclude from this difference that tree-recursive processes are u
 	    Each call of a function will evoke a local frame (at least for binding argument-name with value bounded to it)!
 		* Environment diagram: *Extremely useful for the understanding of programme.*
 	* Local variable
+		In Python, any variable included in def-syntax will always be treated as local, _including arguments themselves_.
 	* Evaluate V.S. Execute
- 
+		Definition:
+			* Evaluate is a map from the set combined by the set of expressions and the set of enviroments to (their indicated) values.
+			* Execute a map from the set of environments to itself.
+
+
 * High-order function
 	Functions that maps on or/and onto the set of functions.
 
 	* Closure
+		Definition: def-syntax involves def-syntax.
+		Function: If a function Ff is specially defined for defining function F, out of which it is useless, then define F involving the definition of Ff.
 	* Currying
-	* Lambda expression (Calling it "anonymous function" is more proper!)
+		Definition: func(arg1)(arg2)...(argn)
+		Function: ???
+	* Anonymous function: via lambda expression
+		Function: Obvious. You need not to struggling with naming functions if their names themselves are not essential.
 	* First-class status
 		Python awards functions full first-class status.
+		Function: For better abstraction.
 
-* Recursive function (Patterns:)
-	* Mutual recursion
-	* Tree recursion
+* Recursive function
+	Patterns:
+		* Mutual recursion
+		* Tree recursion
 
 
 ### Basic Python Syntax
@@ -770,8 +782,12 @@ One should not conclude from this difference that tree-recursive processes are u
 ### Habit for a Better Coding
 
 * Function signature
+	Remembering the function not only by its function-name, but also by its arguments-name, like the gismu in Lojban.
 * Using pure function
+	No side-effect, so that composing and testing can be done without extra caring, since a pure function always returns the same thing for the same inputs.
 * Naming functions and parameters
+	Several rules.
+
 
 
 ### Abstraction
@@ -780,6 +796,8 @@ The important thing is that *do not to write the same thing twice!* These words 
 
 First-class status setting of Python provides vast tools for establishing this abstraction (of pattern)!
 
+
+### These are all what I learned in chapter one.
 
 
 EOF
