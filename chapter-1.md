@@ -708,37 +708,58 @@ One should not conclude from this difference that tree-recursive processes are u
 
 
 * Environment
+
 	The state of your computer (including its RAM & CPU (what are your computer doing temporarily?)).
 
     * Frame (Global & Local)
+
 	    Each call of a function will evoke a local frame (at least for binding argument-name with value bounded to it)!
+
 		* Environment diagram: *Extremely useful for the understanding of programme.*
+
 	* Local variable
+
 		In Python, any variable included in def-syntax will always be treated as local, _including arguments themselves_.
+
 	* Evaluate V.S. Execute
+
 		Definition:
+
 			* Evaluate is a map from the set combined by the set of expressions and the set of enviroments to (their indicated) values.
+
 			* Execute a map from the set of environments to itself.
 
 
 * High-order function
-	Functions that maps on or/and onto the set of functions.
+
+	Functions that maps on or//and onto the set of functions.
 
 	* Closure
+	
 		Definition: def-syntax involves def-syntax.
+
 		Function: If a function Ff is specially defined for defining function F, out of which it is useless, then define F involving the definition of Ff.
+
 	* Currying
+
 		Definition: func(arg1)(arg2)...(argn)
+
 		Function: ???
+
 	* Anonymous function: via lambda expression
+
 		Function: Obvious. You need not to struggling with naming functions if their names themselves are not essential.
+
 	* First-class status
 		Python awards functions full first-class status.
 		Function: For better abstraction.
 
 * Recursive function
+
 	Patterns:
+
 		* Mutual recursion
+
 		* Tree recursion
 
 
