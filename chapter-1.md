@@ -798,6 +798,13 @@ One should not conclude from this difference that tree-recursive processes are u
 		while <expression true?>:
 			<suite>
 
+* from import
+
+		from <module> import <module>
+
+for instance,
+			
+		from operator import mul
 
 
 ### Habit for a Better Coding
