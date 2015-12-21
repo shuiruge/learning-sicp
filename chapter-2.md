@@ -195,7 +195,7 @@ Our rational number implementation does not reduce rational numbers automaticall
 (The double slash operator, `//`, expresses integer division, which rounds down the fractional part of the result of division.)
 
 
-#### Instead of Employing Tuple, An Instance
+### Instead of Employing Tuple, An Instance
 
 Here is an instance of constructing pair, thus constructing the constructor and selectors, without employing tuple.
 
@@ -217,10 +217,168 @@ We can implement functions pair and getitem_pair that fulfill this description j
 			return p(i)
 	
 
-#### Summary
+### Summary
 
 Black-box abstraction makes us manipulate rational numbers without even knowing what tuple is; and all we need are the three functions, i.e., one constructor, two selectors and one printer (to string, the "standard" output, as API). This abstraction of data bases on the black-box abstraction of function.
 
 By other types, instead of by tuple, can also define the constructor, selectors, and the printer. But, as being black-box, using which type is irrelevant to further programming basing on this three kinds of function.
 
 One advantage is that they makes programs much easier to maintain and to modify. The fewer functions that depend on a particular representation, the fewer changes are required when one wants to change that representation.
+
+
+## Sequence
+
+Abstraction of sequence will be declared first, then follows instances of this abstraction, and then end with a DIY sequence that implement the same abstraction.
+
+### Sequence Abstraction
+
+A sequence is *not* a particular abstract data type, but instead a collection of behaviors that different types share. That is, there are many kinds of sequences, but they all share certain properties. In particular,
+
+- Length. A sequence has a finite length.
+
+- Element selection. A sequence has an element corresponding to any non-negative integer index less than its length, starting at 0 for the first element.
+
+### Instances of the Abstraction
+
+#### Tuple
+
+Tuples can have arbitrary length; and they exhibit the two principal behaviors of the sequence abstraction: length and element selection.
+
+For instance
+	
+	>>> digits = (1, 8, 2, 8)
+	>>> len(digits)
+	4
+	>>> digits[3]
+	8
+Additionally, tuples can be added together and multiplied by integers. For tuples, addition and multiplication do not add or multiply elements, but instead combine and replicate the tuples themselves.
+
+For instance
+	
+	>>> (2, 7) + digits
+	(2, 7, 1, 8, 2, 8)
+	>>> digits * 2
+	(1, 8, 2, 8, 1, 8, 2, 8)
+	
+#### Mapping
+
+Introducing mapping like mma's `Map[]` would be convenient. In Python, it is `map(func, seq)`. Remark that the result of map is an object that is *not* itself a sequence, but can be converted into a sequence by calling tuple, the constructor function for tuples.
+
+
+
+For instance,
+
+	>>> alternates = (-1, 2, -3, 4, -5)
+	>>> map(abs, alternates)
+	<map object at 0xb6f8a82c>
+	>>> tuple(map(abs, alternates))
+	(1, 2, 3, 4, 5)
+	
+It is natural that `map` returns an object instead of a tuple, since a sequence object may not be *represented* as a tuple!
+
+##### Comment: Tensor Analogy
+
+It looks that an object is like a tensor, while a tuple is the tensor under a representation, or say, under a system of coordinates. For a tensor, only abstractly writing is valid, without any component and functional form, unless a representation is attached to it. But, the components and functional forms change if the representation changes.
+
+Like the previous instance, in the final line, the `tuple` function convert an abstract sequence object to a tuple-representation.
+
+#### Multiple Assignment by Tuple
+
+As we have seen,
+	
+	>>> a, b = 1, 2;
+	>>> a
+	1
+	>>> b
+	2
+	
+##### How Is It Done in Python?
+
+Python actually uses tuples to represent multiple values separated by commas. This is called _tuple packing_ (or say, parenthesizing).
+	
+	>>> digits = 1, 8, 2, 8
+	>>> digits
+	(1, 8, 2, 8)
+	
+Using a tuple to assign to multiple names is called, as one might expect, _tuple unpacking_ (or say, um-parenthesizing).
+
+	>>> d0, d1, d2, d3 = digits
+	>>> d2
+	2
+
+Multiple assignment is just the combination of tuple packing and unpacking.
+
+
+### Sequence Iteration
+
+#### Syntax
+
+The `for` in Python establish sequence iteration. Its syntax is
+
+	for <name> in <expression>:
+	    <suite>
+
+#### Explanation
+	
+A `for` statement is executed by the following procedure:
+
+- Evaluate the header `<expression>`, which must yield an iterable value (such as sequence).
+- For each element value in that sequence, in order:
+  - Bind `<name>` to that value in the local environment that surrounds `for`.
+  - Execute the `<suite>`.
+  
+An important consequence of this evaluation procedure is that `<name>` will be bound to the last element of the sequence after the for statement is executed.
+  
+(The general definition of the term "iterable" appears in the section on iterators in Chapter 4.)
+
+#### For Instance
+	
+	>>> def count(s, value):
+		    """Count the number of occurrences of value in sequence s."""
+			total = 0
+			for elem in s:
+				if elem == value:
+					total = total + 1
+	        return total
+	>>> count(digits, 8)
+	2
+	
+### Range
+
+#### Syntax
+
+`range(beg_int, end_int)` generates a sequence of integers run from `beg_int` to `end_int - 1` (*not* `end-int`!).
+
+`range(end_int)` generates a sequence of integers run from `0` to `end_int - 1`.
+
+#### For instance
+
+	>>> range(1, 10)  # Includes 1, but not 10
+	range(1, 10)
+
+Calling the `tuple` constructor on a range will create a tuple with the same elements as the range, so that the elements can be easily inspected.
+
+	>>> tuple(range(5, 8))
+	(5, 6, 7)
+
+#### Usage
+
+It is quite useful in constructing `for` statement. For instance
+
+	>>> total = 0
+	>>> for k in range(5, 8):
+		    total = total + k
+	>>> total
+	18
+
+A common convention is to use a single underscore character `_` for the name in the for header if the name is unused in the suite:
+
+	>>> for _ in range(3):
+		    print('Go Bears!')
+		
+	Go Bears!
+	Go Bears!
+	Go Bears!
+
+Note that an underscore is just another name in the environment as far as the interpreter is concerned, but has a *conventional* meaning among programmers that indicates the name will not appear in any expressions.
+
