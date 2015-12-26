@@ -15,7 +15,7 @@ Functional Astraction is *abstraction of pattern (of definitions of functions)*,
 
 How to gain such abstraction in practice? There are two ways. The first is the hard way: write out all functions, then pick out the common pattern they share, and then write out a new version basing on the functional abstraction. The second way is basing on experience, which heavily bases on the first way.
 
-So, there is no easy way to do such abstraction.
+*So, there is no easy way to do such abstraction.*
 
 ## "Object"
 
@@ -381,4 +381,145 @@ A common convention is to use a single underscore character `_` for the name in 
 	Go Bears!
 
 Note that an underscore is just another name in the environment as far as the interpreter is concerned, but has a *conventional* meaning among programmers that indicates the name will not appear in any expressions.
+
+### Membership
+
+Python provides functions behave like mma's `MemberQ`. The functions are `in` and `not in`.
+
+#### Syntax
+
+	<element> in <sequence>
+	
+	<element> not in <sequence>
+	
+which return Boolean values `True` or `False`.
+
+#### Instance
+
+	>>> digits
+	(1, 8, 2, 8)
+	>>> 2 in digits
+	True
+	>>> 1828 not in digits
+	True
+
+### Slicing
+
+Slicing picks out some elements of a sequence but in a range to construct a "smaller" sequence. Such as picking out the "smaller" sequence `(1, 2)` in `(1, 2, 3)`.
+
+#### Syntax
+	
+	<sequence> [ <beginning index> : <length> ]
+	
+#### Instance
+	
+	>>> digits[0:2]
+	(1, 8)
+	>>> digits[1:]
+	(8, 2, 8)
+	
+
+### Nested Tuple
+
+A tuple can be an element of anther tuple. This ability is called _a closure property_ of the tuple data type.
+
+The usage of nested pairs is as follow.
+
+### Recursive Sequence
+
+For instance, tuple `(1, 2, 3, 4)` can be re-written by the nested tuple, as
+	
+	(1, (2, (3, (4, None))))
+	
+The first element of each pair is an element in the list, while the second is a pair that represents the rest of the list. The second element of the final pair is `None`, which indicates that the list has ended.
+
+The reason is the recursion: any non-empty sequence can be decomposed into
+
+- its first element, and
+- the rest of the sequence.
+
+And the rest of a sequence is itself a (possibly empty) sequence. We call this view of sequences recursive.
+
+#### Constructor and Selectors
+
+Since our list representation is recursive, we will call it an `rlist` in our implementation, so as not to confuse it with the built-in `list` type in Python.
+
+A recursive list can be constructed from a first element and the rest of the list. The value None represents an empty recursive list. So, the constructor (and a constant) is
+
+	>>> empty_rlist = None
+	>>> def rlist(first, rest):
+		    """Construct a recursive list from its first element and the rest."""
+			return (first, rest)
+			
+And the selectors are
+	
+	>>> def first(s):
+		    """Return the first element of a recursive list s."""
+			return s[0]
+	
+	>>> def rest(s):
+		    """Return the rest of the elements of a recursive list s."""
+			return s[1]
+
+The single behavior condition for a recursive list is that, like a pair, its constructor and selectors are inverse functions. Precisely,
+
+- if a recursive list `s` was constructed from element `f` and list `r`, then `first(s)` returns `f`, and `rest(s)` returns `r`.
+
+
+#### Instance
+
+	>>> counts = rlist(1, rlist(2, rlist(3, rlist(4, empty_rlist))))
+	>>> first(counts)
+	1
+	>>> rest(counts)
+	(2, (3, (4, None)))
+	
+To archive the data abstraction, that is, to define length and elements selection. They are respectively defined as
+	
+	>>> def len_rlist(s):
+	        """Return the length of recursive list s."""
+			length = 0
+			while s != empty_rlist:
+				s, length = rest(s), length + 1
+			return length
+
+	>>> def getitem_rlist(s, i):
+	        """Return the element at index i of recursive list s."""
+			while i > 0:
+				s, i = rest(s), i - 1
+			return first(s)
+	
+Such as,
+	
+	>>> len_rlist(counts)
+	4
+	>>> getitem_rlist(counts, 1)  # The second item has index 1
+	2
+	
+#### Recursive Definitions of Length and of Elements Selector
+
+Both `len_rlist` and `getitem_rlist` are iterative. Recursive can they be too, as
+	
+	>>> def len_rlist_recursive(s):
+	        """Return the length of a recursive list s."""
+			if s == empty_rlist:
+				return 0
+				return 1 + len_rlist_recursive(rest(s))
+	
+	>>> def getitem_rlist_recursive(s, i):
+			"""Return the element at index i of recursive list s."""
+			if i == 0:
+				return first(s)
+				return getitem_rlist_recursive(rest(s), i - 1)
+	
+The same,
+
+	>>> len_rlist_recursive(counts)
+	4
+	>>> getitem_rlist_recursive(counts, 1)
+	2
+
+##### Using Recursive Sequence
+
+Recursive lists can be manipulated using both iteration and recursion. In Chapter 3, however, we will see more complicated examples of recursive data structures that will require recursion to manipulate easily.
 

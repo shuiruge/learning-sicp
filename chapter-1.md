@@ -825,6 +825,12 @@ The important thing is that *do not to write the same thing twice!* These words 
 First-class status setting of Python provides vast tools for establishing this abstraction (of pattern)!
 
 
+### How-to
+
+How to gain such abstraction in practice? There are two ways. The first is the hard way: write out all functions, then pick out the common pattern they share, and then write out a new version basing on the functional abstraction. The second way is basing on experience, which heavily bases on the first way.
+
+*So, there is no easy way to do such abstraction.*
+
 ### These are all what I learned in chapter one.
 
 
